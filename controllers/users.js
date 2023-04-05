@@ -8,10 +8,20 @@ exports.postAddUser = async (req, res) => {
     try {
         const users = await Users.find({'user_id': req.user.user_id});
         if(users.length) {
-            return res.send({
-                message: "User data already exists",
-                isReferee: user.data().isReferee
-            });
+
+            if(users[0].isReferee != req.body.isReferee) {
+                return res.status(403).send({
+                    message: "User already registered as other type"
+                });
+            }
+            else {
+                return res.send({
+                    message: "User Already Exists",
+                    isReferee: users[0].isReferee,
+                    signin: true
+                });
+            }
+            
         }
 
         const errors = validationResult(req);
@@ -32,8 +42,9 @@ exports.postAddUser = async (req, res) => {
 
         res.status(201).send({
             message: "User Added Successfully",
-            isReferee: data.isReferee
-        })
+            isReferee: data.isReferee,
+            signin:false
+        });
     }
     catch(error) {
         res.status(500).send({
