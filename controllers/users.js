@@ -69,7 +69,8 @@ exports.getOwnUser = async (req, res) => {
             name: user['name'],
             phone_number: user['phone_number'],
             resume_link: user['resume_link'],
-            email: user['email']
+            email: user['email'],
+            current_company: user['current_company']
         };
         userData.user_id = req.user.user_id;
         res.send(userData).status(200);
