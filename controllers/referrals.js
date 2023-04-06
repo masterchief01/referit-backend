@@ -6,10 +6,7 @@ const JobListings = require('../models/jobListing.model');
 
 exports.getReferralByCompany = async (req,response) => {
     try{
-        // console.log(req);
-        const {lastInd} = req.query;
-        let {company} = req.query;
-        
+        // console.log(req);        
         const users = await Users.find({user_id: req.user.user_id});
 
         if (users.length == 0) {
@@ -20,6 +17,7 @@ exports.getReferralByCompany = async (req,response) => {
 
         const user = users[0];
         
+        let company;
         // console.log(user.isReferee);
         if(!user.isReferee) {
             // console.log(user);
@@ -31,7 +29,6 @@ exports.getReferralByCompany = async (req,response) => {
             })
         }
         
-        const pageSize = 3;
         let allReferralsResult =  await Referrals.find({key: company});
         if(allReferralsResult.length == 0)
         {
@@ -44,14 +41,10 @@ exports.getReferralByCompany = async (req,response) => {
         let allReferrals = allReferralsResult[0];
 
         const referral = allReferrals.data;
-        let firstInd = referral.length - 1;
-        if(lastInd){
-            firstInd = lastInd;
-        }
+
         let needReferral = [];
-        let hasNext = 0;
-        let lastId;
-        for(let i = firstInd; i >= 0 ; i--) {
+
+        for(let i = referral.length - 1; i >= 0 ; i--) {
             if(referral[i].isActive) {
 
                 let alreadyRejected = false;
@@ -83,20 +76,10 @@ exports.getReferralByCompany = async (req,response) => {
                 }
                 // console.log(data);
                 needReferral.push(data);
-                // console.log("there");
-                if(needReferral.length == pageSize+1) {
-                    hasNext =  1;
-                    lastId = i;
-                    needReferral.pop();
-                    break;
-                }
             }
         }
         response.send({
-            data: needReferral,
-            hasNext,
-            lastId,
-            company
+            data: needReferral
         });
 
     }catch(err){
@@ -112,7 +95,6 @@ exports.getReferralByCompany = async (req,response) => {
 exports.getReferralByJob = async (req,response) =>{
     try{
         const {jobId} = req.query;
-        let {lastInd} = req.query;
         // console.log(jobId);
 
         if(!jobId) {
@@ -142,17 +124,12 @@ exports.getReferralByJob = async (req,response) =>{
 
         const refReqArr = job.requested_referral;
         // console.log(refReqArr);
-        if(!lastInd){
-            lastInd = refReqArr.length - 1;
-        }
-        const pageSize = 3;
+
         let needReferral = [];
-        let hasNext = 0;
-        let lastId;
-        // console.log(lastInd);
-        let company = job.data().company;
+
+        let company = job.company;
         company = company.toLowerCase();
-        let allReferralsResult =  await Referrals.find({company: company});
+        let allReferralsResult =  await Referrals.find({key: company});
         if(allReferralsResult.length == 0) {
             return response.status(202).send({
                 data: []
@@ -162,7 +139,7 @@ exports.getReferralByJob = async (req,response) =>{
         let allReferrals = allReferralsResult[0].data;
         // console.log(allReferral);
 
-        for(let i=lastInd;i>=0;i--) {
+        for(let i=allReferrals.length - 1;i>=0;i--) {
             const nowInd = refReqArr[i].refInd;
             // console.log(nowInd);
             if(allReferrals[nowInd].isActive) {
@@ -195,20 +172,10 @@ exports.getReferralByJob = async (req,response) =>{
                 // console.log(data);
                 needReferral.push(data);
                 // console.log("there");
-                if(needReferral.length == pageSize+1)
-                {
-                    hasNext =  1;
-                    lastId = i;
-                    needReferral.pop();
-                    break;
-                }
             }
         }
         response.status(200).send({
-            data: needReferral,
-            hasNext,
-            lastId,
-            jobId
+            data: needReferral
         })
 
     }

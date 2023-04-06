@@ -169,33 +169,11 @@ exports.postReferral = async (req, res) => {
 exports.getJobListings = async (req, res) => {
     
     try {
-        const { lastJobId } = req.query;
-        // console.log(lastJobId);
-        let jobs;
-        const pageSize = 3;
-        if (!lastJobId) {
-            jobs = await JobListings.find({ isActive: true }).sort({ datePosted: "desc" }).limit(pageSize + 1);
-        } 
-        else {
-            const lastJob = await JobListings.findById(lastJobId);
-            
-            if (!lastJob) {
-                jobs = await JobListings.find({ isActive: true }).sort({ datePosted: "desc" }).limit(pageSize + 1);
-            }
-            else {
-                jobs = await JobListings.find({ isActive: true }).sort({ datePosted: "desc" }).skip(pageSize).limit(pageSize + 1);
-            }  
-        }
+        let jobs = await JobListings.find({ isActive: true }).sort({ datePosted: "desc" });
 
         // console.log(jobs);
-        const hasNext = jobs.length == pageSize + 1 ? 1 : 0;
-        if (jobs.length == pageSize + 1) {
-            jobs.pop();
-        }
         let jobListings = [];
-        let lastId;
         for (let job of jobs) {
-            lastId = job._id;
             let data = {
                 id: job._id,
                 company: job.company,
@@ -219,9 +197,7 @@ exports.getJobListings = async (req, res) => {
         }
 
         res.send({
-            data: jobListings,
-            hasNext,
-            lastId
+            data: jobListings
         })
         .status(200);
     } 
