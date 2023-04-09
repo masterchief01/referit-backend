@@ -3,14 +3,10 @@ const app = express();
 const cors = require('cors');
 const mongoose = require("mongoose");
 
-require("dotenv").config({ path: "./config.env" });
+require("dotenv").config();
 const port = process.env.PORT || 3000;
 
 //-----MIDDLEWARE-----
-let corsOptions = {
-    origin: ["http://localhost"]
-}
-
 app.use(cors());
 app.use(express.json());
 

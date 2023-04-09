@@ -1,4 +1,4 @@
-const firebase = require("../db");
+const firebase = require("../utils/firebase-auth/firebase-auth");
 
 const isAuth = (req, res, next) => {
     const headerToken = req.headers.authorization;

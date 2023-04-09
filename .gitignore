@@ -1,6 +1,4 @@
 node_modules
-config.env
-firebaseAdminSdk.json
-firebase.json
-.firebaserc
 package-lock.json
+.env
+utils/firebase-auth/credentials.json
