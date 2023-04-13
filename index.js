@@ -12,7 +12,7 @@ app.use(express.json());
 
 
 // get driver connection
-const uri = process.env.ATLAS_URI;
+const uri = process.env.MONGO_URI;
 mongoose.connect(uri);
 const connection = mongoose.connection;
 connection.once('open', () => {
@@ -23,9 +23,9 @@ const userRoutes = require("./routes/users");
 const referralRoutes = require("./routes/referrals");
 const jobListingRoutes = require("./routes/jobListings");
 
-app.use('/users', userRoutes);
-app.use('/referral',referralRoutes);
-app.use('/jobListings',jobListingRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/referral',referralRoutes);
+app.use('/api/jobListings',jobListingRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
