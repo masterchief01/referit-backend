@@ -152,8 +152,9 @@ exports.getReferralByJob = async (req,response) =>{
                 }
                 
                 if(alreadyRejected) continue;
+
                 
-                const candidate = (await Referrals.find({user_id: allReferrals[nowInd].candidate}))[0];
+                const candidate = (await Users.find({user_id: allReferrals[nowInd].candidate}))[0];
                 const job = (await JobListings.findById(allReferrals[nowInd].jobReference));
                 // console.log(candidate);
                 // console.log(job);
