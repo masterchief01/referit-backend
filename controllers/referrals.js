@@ -128,7 +128,6 @@ exports.getReferralByJob = async (req,response) =>{
         let needReferral = [];
 
         let company = job.company;
-        company = company.toLowerCase();
         let allReferralsResult =  await Referrals.find({key: company});
         if(allReferralsResult.length == 0) {
             return response.status(202).send({
@@ -137,9 +136,9 @@ exports.getReferralByJob = async (req,response) =>{
         }
 
         let allReferrals = allReferralsResult[0].data;
-        // console.log(allReferral);
+        // console.log(allReferrals);
+        for(let i=refReqArr.length - 1;i>=0;i--) {
 
-        for(let i=allReferrals.length - 1;i>=0;i--) {
             const nowInd = refReqArr[i].refInd;
             // console.log(nowInd);
             if(allReferrals[nowInd].isActive) {
@@ -151,7 +150,7 @@ exports.getReferralByJob = async (req,response) =>{
                         break;
                     }
                 }
-
+                
                 if(alreadyRejected) continue;
                 
                 const candidate = (await Referrals.find({user_id: allReferrals[nowInd].candidate}))[0];
@@ -174,6 +173,7 @@ exports.getReferralByJob = async (req,response) =>{
                 // console.log("there");
             }
         }
+
         response.status(200).send({
             data: needReferral
         })
