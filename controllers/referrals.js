@@ -211,7 +211,6 @@ exports.giveFeedback = async (req,res) => {
             return res.status(400).send("Insufficient data");
         }
 
-        company = company.toLowerCase();
         let referralResult = (await Referrals.find({key:company}));
 
         if(!referralResult.length) {
@@ -361,7 +360,6 @@ exports.rejectReferral = async (req,res) => {
         {
             return res.status(400).send("Insufficient data");
         }
-        company = company.toLowerCase();
         
         let referralResult = (await Referrals.find({key:company}));
 

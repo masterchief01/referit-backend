@@ -110,7 +110,6 @@ exports.postReferral = async (req, res) => {
         data.rejectedBy = [];
         data.datePosted = new Date();
         let company = job.company;
-        company= company.toLowerCase();
         // console.log(company);
         // return;
         let ind = 0;
