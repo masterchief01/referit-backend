@@ -167,7 +167,7 @@ exports.getReferralByJob = async (req,response) =>{
                     canPhone: candidate.phone_number,
                     canId: candidate.user_id,
                     canResume: candidate.resume_link,
-                    id: i
+                    id: nowInd
                 }
                 // console.log(data);
                 needReferral.push(data);
