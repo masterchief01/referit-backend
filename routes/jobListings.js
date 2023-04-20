@@ -6,7 +6,8 @@ const {
     postReferral,
     getJobListings,
     getJob,
-    disableJob
+    disableJob,
+    getReferralArchive
 } = require("../controllers/jobListings");
 const isAuth = require("../middleware/is-auth");
 
@@ -19,7 +20,8 @@ router.post(
     postNewJob
 );
 
-router.get("/", getJobListings);
+router.get("/",isAuth, getJobListings);
+router.get("/referralArchive",isAuth, getReferralArchive);
 router.get("/:jobid",getJob);
 
 router.patch("/:jobid",isAuth,disableJob);

@@ -168,16 +168,36 @@ exports.postReferral = async (req, res) => {
 exports.getJobListings = async (req, res) => {
     
     try {
+
+        const userResult = await Users.find({user_id: req.user.user_id});
+        if (userResult.length == 0) {
+            return response.status(404).send({
+                message: "User data does not exists",
+            });
+        }
+
+        let user = userResult[0];
+
         let jobs = await JobListings.find({ isActive: true }).sort({ datePosted: "desc" });
 
         // console.log(jobs);
         let jobListings = [];
         for (let job of jobs) {
+            
+            let requested = false;
+            for(let job_req of user.jobs_requested) {
+                if(job._id.equals(job_req.jobReference)) {
+                    requested = true;
+                    break;
+                }
+            }
+
             let data = {
                 id: job._id,
                 company: job.company,
                 datePosted: job.datePosted,
-                desc: job.desc
+                desc: job.desc,
+                requested: requested
             };
 
             const postedBy = (await Users.find({user_id: job.postedBy}))[0];
@@ -197,6 +217,71 @@ exports.getJobListings = async (req, res) => {
 
         res.send({
             data: jobListings
+        })
+        .status(200);
+    } 
+    catch (err) {
+        // console.log(err);
+        res.status(500).send({
+            message: "Internal error occurred",
+            error: err,
+        });
+    }
+};
+
+exports.getReferralArchive = async (req, res) => {
+    
+    try {
+
+        const userResult = await Users.find({user_id: req.user.user_id});
+        if (userResult.length == 0) {
+            return response.status(404).send({
+                message: "User data does not exists",
+            });
+        }
+
+        let user = userResult[0];
+
+        let jobs = await JobListings.find().sort({ datePosted: "desc" });
+
+        // console.log(jobs);
+        let referralArchive = [];
+        for (let job of jobs) {
+            
+            let requested = false;
+            for(let job_req of user.jobs_requested) {
+                if(job._id.equals(job_req.jobReference)) {
+                    requested = true;
+                    break;
+                }
+            }
+
+            let data = {
+                id: job._id,
+                company: job.company,
+                datePosted: job.datePosted,
+                desc: job.desc,
+                requested: requested
+            };
+
+            const postedBy = (await Users.find({user_id: job.postedBy}))[0];
+
+            if(postedBy) {
+                data.postedBy = {
+                    id: postedBy.user_id,
+                    name: postedBy.name,
+                    infotext: postedBy.infotext
+                };
+            }
+            
+            
+            data.jobId = job.jobId;
+            data.jobLink = job.jobLink;
+            referralArchive.push(data);
+        }
+
+        res.send({
+            data: referralArchive
         })
         .status(200);
     } 
