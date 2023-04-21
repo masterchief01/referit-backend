@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: referit-backend-deployment
+  namespace: referit
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 100%
+  selector:
+    matchLabels:
+      app: referit-backend
+  template:
+    metadata:
+      labels:
+        app: referit-backend
+    spec:
+      containers:
+      - name: referit-backend
+        image: masterchief01/referit-backend:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - name: http
+          containerPort: 5001
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: referit-backend-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: referit-backend-service
+  namespace: referit
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5001
+    targetPort: 5001
+  selector:
+    app: referit-backend
