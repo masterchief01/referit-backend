@@ -65,7 +65,7 @@ jobs:
 
       - name: Perform Rolling Update of Cluster Resources
         run: | 
-          bash ./scripts/rolling-update.sh
+          bash scripts/rollout-infra.sh
 
 
       # - name: Deploy to AKS
