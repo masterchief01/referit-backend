@@ -4,6 +4,7 @@ metadata:
   name: referit-backend-deployment
   namespace: referit
 spec:
+  revisionHistoryLimit: 2
   replicas: 1
   strategy:
     type: RollingUpdate

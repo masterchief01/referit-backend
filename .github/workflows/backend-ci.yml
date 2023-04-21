@@ -66,14 +66,3 @@ jobs:
       - name: Perform Rolling Update of Cluster Resources
         run: | 
           bash scripts/rollout-infra.sh
-
-
-      # - name: Deploy to AKS
-      #   id: deploy-aks
-      #   uses: Azure/k8s-deploy@v4
-      #   with:
-      #     namespace: 'default'
-      #     manifests: |
-      #        azure-vote-all-in-one-redis.yaml
-      #     images: '${{ secrets.registry }}.azurecr.io/${{ secrets.repository }}/azure-vote-front:${{ github.sha }}'
-      #     pull-images: false
