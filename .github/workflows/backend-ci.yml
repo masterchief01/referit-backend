@@ -1,0 +1,39 @@
+name: Backend Pipeline
+
+on:
+  push:
+    branches: [ master ]
+    
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Test
+      run: yarn test
+
+    - name: Docker Login
+      uses: docker/login-action@v1.14.1
+      with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      id: build_push
+      with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/referit-backend:latest
+          
+    - name: Image ID
+      run: echo ${{ steps.build_push.outputs.imageid }}
+
+# NOW, RUN THE AZURE CLI TO ROLLOUT KUBERNETES UPDATE
