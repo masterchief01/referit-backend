@@ -38,6 +38,7 @@ jobs:
 
 # NOW, RUN THE AZURE CLI TO ROLLOUT KUBERNETES UPDATE
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code 
@@ -52,15 +53,15 @@ jobs:
         id: install-kubectl
         uses: azure/setup-kubectl@v3
 
-      # - name: Set AKS context
-      #   id: set-context
-      #   uses: azure/aks-set-context@v3
-      #   with:
-      #     resource-group: '${{ secrets.resource_group }}' 
-      #     cluster-name: '${{ secrets.cluster_name }}'
+      - name: Set AKS context
+        id: set-context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: '${{ secrets.RESOURCE_GROUP }}' 
+          cluster-name: '${{ secrets.CLUSTER_NAME }}'
       
-      # - name: Get all Resources from Azure Cluster
-      #   run: kubectl get all -n referit
+      - name: Get all Resources from Azure Cluster
+        run: kubectl get all -n referit
 
       # - name: Deploy to AKS
       #   id: deploy-aks
