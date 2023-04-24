@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
+    "postinstall": "patch-package",
     "test": "echo \"No Tests to run\""
   },
   "author": "",
@@ -16,6 +17,11 @@
     "express-validator": "^6.15.0",
     "firebase-admin": "^11.5.0",
     "mongoose": "^7.0.3",
-    "nodemon": "^2.0.22"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "patch-package": "^6.5.1",
+    "response-time": "^2.3.2",
+    "winston": "^3.8.2",
+    "winston-loki": "^6.0.6"
   }
 }
