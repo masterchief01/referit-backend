@@ -1,4 +1,4 @@
-FROM node:18.15.0-alpine
+FROM --platform=linux node:18.15.0-alpine
 
 WORKDIR /server
 
