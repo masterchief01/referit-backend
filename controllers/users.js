@@ -254,7 +254,7 @@ exports.editUserData = async (req, res) => {
       });
     }
 
-    logger.info(user.data.email);
+    logger.info(req.user.email);
     req.body.email = req.user.email;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
