@@ -277,6 +277,8 @@ exports.getReferralArchive = async (req, res) => {
 
       data.jobId = job.jobId;
       data.jobLink = job.jobLink;
+
+      logger.info(data);
       referralArchive.push(data);
     }
 
