@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { getLogger } = require("./logs/logger");
+const { getLogger } = require("../logs/logger");
 const logger = getLogger();
 
 const Users = require("../models/user.model");
