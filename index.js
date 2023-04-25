@@ -44,6 +44,12 @@ const userRoutes = require("./routes/users");
 const referralRoutes = require("./routes/referrals");
 const jobListingRoutes = require("./routes/jobListings");
 
+app.use('/api',express.Router().get('/',(req,res) => {
+  res.send(
+      "welcome to refer it backend"
+  )
+}));
+
 app.use("/api/users", userRoutes);
 app.use("/api/referral", referralRoutes);
 app.use("/api/jobListings", jobListingRoutes);
