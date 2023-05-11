@@ -35,6 +35,8 @@ app.get("/health", (req, res) => {
   res.send("Health check");
 });
 
+app.post("/test", require("./controllers/sample").sumRequest);
+
 app.get("/error", (req, res) => {
   throw new Error("Error thrown");
 });
@@ -44,11 +46,12 @@ const userRoutes = require("./routes/users");
 const referralRoutes = require("./routes/referrals");
 const jobListingRoutes = require("./routes/jobListings");
 
-app.use('/api',express.Router().get('/',(req,res) => {
-  res.send(
-      "welcome to refer it backend"
-  )
-}));
+app.use(
+  "/api",
+  express.Router().get("/", (req, res) => {
+    res.send("welcome to refer it backend");
+  })
+);
 
 app.use("/api/users", userRoutes);
 app.use("/api/referral", referralRoutes);
