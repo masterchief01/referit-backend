@@ -8,6 +8,6 @@ RUN yarn --frozen-lockfile
 
 COPY . .
 
-EXPOSE 3001
+EXPOSE 5001
 
 CMD ["yarn", "start"]
