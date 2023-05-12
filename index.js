@@ -11,11 +11,13 @@ const swaggerSpec = require("./swagger");
 const { logError } = require("./logs/errorLogger");
 const { logResponseTime } = require("./logs/responseTimeLogger");
 
+
 require("dotenv").config();
 const port = process.env.PORT || 5001;
 
 const { getLogger } = require("./logs/logger");
 const logger = getLogger();
+logger.info("HI")
 logger.info("Starting app in env: " + process.env.NODE_ENV);
 
 //-----MIDDLEWARE-----
