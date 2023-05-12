@@ -5,6 +5,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const responseTime = require("response-time");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 const { logError } = require("./logs/errorLogger");
 const { logResponseTime } = require("./logs/responseTimeLogger");
@@ -51,6 +53,8 @@ app.get("/error", (req, res) => {
 const userRoutes = require("./routes/users");
 const referralRoutes = require("./routes/referrals");
 const jobListingRoutes = require("./routes/jobListings");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(
   "/api",
