@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "cross-env NODE_ENV=production nodemon index.js",
+    "dev": "cross-env NODE_ENV=staging nodemon index.js",
     "postinstall": "patch-package",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=testing jest --verbose"
   },
   "author": "",
   "license": "ISC",
@@ -24,5 +25,8 @@
     "response-time": "^2.3.2",
     "winston": "^3.8.2",
     "winston-loki": "^6.0.6"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

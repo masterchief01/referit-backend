@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -13,7 +14,7 @@ const port = process.env.PORT || 5001;
 
 const { getLogger } = require("./logs/logger");
 const logger = getLogger();
-logger.info("Starting app...");
+logger.info("Starting app in env: " + process.env.NODE_ENV);
 
 //-----MIDDLEWARE-----
 app.use(cors());
@@ -23,7 +24,12 @@ app.use(responseTime(logResponseTime));
 app.use(logError);
 
 // get driver connection
-const uri = process.env.MONGO_URI;
+let uri = "";
+if (process.env.NODE_ENV === "testing") {
+  uri = process.env.MONGO_TEST_URI;
+} else {
+  uri = process.env.MONGO_URI;
+}
 mongoose.connect(uri);
 const connection = mongoose.connection;
 connection.once("open", () => {
