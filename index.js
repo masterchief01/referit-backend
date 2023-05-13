@@ -42,34 +42,34 @@ connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 
-// Declerative Endpoints
-app.get("/health", (req, res) => {
-  res.send("Health check");
-});
+// // Declerative Endpoints
+// app.get("/health", (req, res) => {
+//   res.send("Health check");
+// });
 
-app.post("/test", require("./controllers/sample").sumRequest);
+// app.post("/test", require("./controllers/sample").sumRequest);
 
-app.get("/error", (req, res) => {
-  throw new Error("Error thrown");
-});
+// app.get("/error", (req, res) => {
+//   throw new Error("Error thrown");
+// });
 
-// Router Decleration
-const userRoutes = require("./routes/users");
-const referralRoutes = require("./routes/referrals");
-const jobListingRoutes = require("./routes/jobListings");
+// // Router Decleration
+// const userRoutes = require("./routes/users");
+// const referralRoutes = require("./routes/referrals");
+// const jobListingRoutes = require("./routes/jobListings");
 
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(
-  "/api",
-  express.Router().get("/", (req, res) => {
-    res.send("welcome to refer it backend");
-  })
-);
+// app.use(
+//   "/api",
+//   express.Router().get("/", (req, res) => {
+//     res.send("welcome to refer it backend");
+//   })
+// );
 
-app.use("/api/users", userRoutes);
-app.use("/api/referral", referralRoutes);
-app.use("/api/jobListings", jobListingRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/referral", referralRoutes);
+// app.use("/api/jobListings", jobListingRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
