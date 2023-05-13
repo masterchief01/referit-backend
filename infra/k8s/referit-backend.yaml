@@ -30,9 +30,25 @@ spec:
         - name: http
           containerPort: 5001
         imagePullPolicy: Always
+        env:
+        - name: PORT
+          valueFrom:
+            configMapKeyRef:
+              name: referit-backend-configmap
+              key: PORT
+        - name: MONGO_URI
+          valueFrom:
+            configMapKeyRef:
+              name: referit-backend-configmap
+              key: MONGO_URI
+        - name: MONGO_TEST_URI
+          valueFrom:
+            configMapKeyRef:
+              name: referit-backend-configmap
+              key: MONGO_TEST_URI
         envFrom:
-        - configMapRef:
-            name: referit-backend-configmap
+        - secretRef:
+            name: referit-backend-secret
 ---
 apiVersion: v1
 kind: Service
