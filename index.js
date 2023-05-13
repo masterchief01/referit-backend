@@ -15,7 +15,7 @@ const port = process.env.PORT || 5001;
 
 const { getLogger } = require("./logs/logger");
 const logger = getLogger();
-logger.info(JSON.stringify(process.env))
+// logger.info(JSON.stringify(process.env))
 logger.info("Starting app in env: " + process.env.NODE_ENV);
 
 //-----MIDDLEWARE-----

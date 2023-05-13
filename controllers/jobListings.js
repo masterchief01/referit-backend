@@ -32,7 +32,7 @@ exports.postNewJob = async (req, res) => {
         await Users.find({ user_id: req.user.user_id })
       )[0].user_id;
     }
-
+    
     data.requested_referral = [];
 
     const new_job = new JobListings(data);
@@ -51,7 +51,7 @@ exports.postNewJob = async (req, res) => {
     }
 
     logger.info("Job posted successfully");
-    res.status(201).json({
+    res.status(201).send({
       jobid: jobid,
     });
   } catch (err) {

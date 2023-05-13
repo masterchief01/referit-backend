@@ -77,7 +77,7 @@ exports.getOwnUser = async (req, res) => {
     userData.user_id = req.user.user_id;
 
     logger.info("User data sent successfully");
-    res.send(userData).status(200);
+    res.status(200).send(userData);
   } catch (error) {
     logger.error(error);
     res.status(500).send({
@@ -126,7 +126,7 @@ exports.getUserData = async (req, res) => {
     userData.user_id = req.params.userId;
 
     logger.info("User data sent successfully");
-    res.send(userData).status(200);
+    res.status(200).send(userData);
   } catch (err) {
     logger.error(err);
     res.status(500).send({
