@@ -4,6 +4,8 @@ WORKDIR /server
 
 COPY ./package.json yarn.lock ./
 
+RUN rm -rf node_modules
+
 RUN yarn --frozen-lockfile
 
 COPY . .
