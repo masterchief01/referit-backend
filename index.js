@@ -58,6 +58,8 @@ const userRoutes = require("./routes/users");
 const referralRoutes = require("./routes/referrals");
 const jobListingRoutes = require("./routes/jobListings");
 
+const router = express.Router();
+
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // app.use(
@@ -67,9 +69,9 @@ const jobListingRoutes = require("./routes/jobListings");
 //   })
 // );
 
-app.use("/api/users", userRoutes);
-app.use("/api/referral", referralRoutes);
-app.use("/api/jobListings", jobListingRoutes);
+// app.use("/api/users", userRoutes);
+// app.use("/api/referral", referralRoutes);
+// app.use("/api/jobListings", jobListingRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
