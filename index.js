@@ -5,8 +5,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const responseTime = require("response-time");
-// const swaggerUi = require("swagger-ui-express");
-// const swaggerSpec = require("./swagger");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 const { logError } = require("./logs/errorLogger");
 const { logResponseTime } = require("./logs/responseTimeLogger");
@@ -60,18 +60,18 @@ const jobListingRoutes = require("./routes/jobListings");
 
 const router = express.Router();
 
-// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// app.use(
-//   "/api",
-//   express.Router().get("/", (req, res) => {
-//     res.send("welcome to refer it backend");
-//   })
-// );
+app.use(
+  "/api",
+  express.Router().get("/", (req, res) => {
+    res.send("welcome to refer it backend");
+  })
+);
 
-// app.use("/api/users", userRoutes);
-// app.use("/api/referral", referralRoutes);
-// app.use("/api/jobListings", jobListingRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/referral", referralRoutes);
+app.use("/api/jobListings", jobListingRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
