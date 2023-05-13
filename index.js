@@ -19,6 +19,7 @@ const { getLogger } = require("./logs/logger");
 const logger = getLogger();
 logger.info("Starting app in env: " + process.env.NODE_ENV);
 
+logger.info("HI THIS IS TEST 1")
 //-----MIDDLEWARE-----
 app.use(cors());
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use(morgan("dev"));
 app.use(responseTime(logResponseTime));
 app.use(logError);
 
+logger.info("HI THIS IS TEST 2")
 // get driver connection
 let uri = "";
 if (process.env.NODE_ENV === "testing") {
@@ -33,6 +35,7 @@ if (process.env.NODE_ENV === "testing") {
 } else {
   uri = process.env.MONGO_URI;
 }
+logger.info("HI THIS IS TEST 3")
 mongoose.connect(uri);
 const connection = mongoose.connection;
 connection.once("open", () => {
