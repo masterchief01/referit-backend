@@ -42,16 +42,16 @@ connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
 
-// // Declerative Endpoints
-// app.get("/health", (req, res) => {
-//   res.send("Health check");
-// });
+// Declerative Endpoints
+app.get("/health", (req, res) => {
+  res.send("Health check");
+});
 
-// app.post("/test", require("./controllers/sample").sumRequest);
+app.post("/test", require("./controllers/sample").sumRequest);
 
-// app.get("/error", (req, res) => {
-//   throw new Error("Error thrown");
-// });
+app.get("/error", (req, res) => {
+  throw new Error("Error thrown");
+});
 
 // // Router Decleration
 // const userRoutes = require("./routes/users");
