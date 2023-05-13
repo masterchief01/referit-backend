@@ -349,7 +349,7 @@ exports.rejectReferral = async (req, res) => {
     const { ind } = req.query;
     logger.info(company);
     logger.info(ind);
-    logger.info(feedbackData.feedback);
+
     let UserIsReferee;
     await Users.find({ user_id: req.user.user_id }).then((docSnapResult) => {
       UserIsReferee = docSnapResult[0].isReferee;
