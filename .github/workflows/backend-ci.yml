@@ -2,8 +2,8 @@ name: Backend Pipeline
 
 on:
   push:
-    branches: [ master ]
-    
+    branches: [master]
+
 permissions:
   contents: read
 
@@ -14,63 +14,63 @@ jobs:
       matrix:
         node-version: [18.x]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install Dependencies
-      run: yarn install --frozen-lockfile
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
 
-    - name: Test
-      run: yarn test
+      - name: Test
+        run: yarn test
 
-    - name: Docker Login
-      uses: docker/login-action@v1.14.1
-      with:
+      - name: Docker Login
+        uses: docker/login-action@v1.14.1
+        with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push
-      uses: docker/build-push-action@v2
-      id: build_push
-      with:
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        id: build_push
+        with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/referit-backend:latest
-          
-    - name: Image ID
-      run: echo ${{ steps.build_push.outputs.imageid }}
 
-# NOW, RUN THE AZURE CLI TO ROLLOUT KUBERNETES UPDATE
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout source code 
-  #       uses: actions/checkout@v3
+      - name: Image ID
+        run: echo ${{ steps.build_push.outputs.imageid }}
 
-  #     - name: Azure login
-  #       uses: azure/login@v1
-  #       with:
-  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+  # NOW, RUN THE AZURE CLI TO ROLLOUT KUBERNETES UPDATE
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-  #     - name: Setup kubectl
-  #       id: install-kubectl
-  #       uses: azure/setup-kubectl@v3
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #     - name: Set AKS context
-  #       id: set-context
-  #       uses: azure/aks-set-context@v3
-  #       with:
-  #         resource-group: '${{ secrets.RESOURCE_GROUP }}' 
-  #         cluster-name: '${{ secrets.CLUSTER_NAME }}'
-      
-  #     - name: Get all Resources from Azure Cluster
-  #       run: kubectl get all -n referit
+      - name: Setup kubectl
+        id: install-kubectl
+        uses: azure/setup-kubectl@v3
 
-  #     - name: Perform Rolling Update of Cluster Resources
-  #       run: | 
-  #         bash scripts/rollout-infra.sh
+      - name: Set AKS context
+        id: set-context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: "${{ secrets.RESOURCE_GROUP }}"
+          cluster-name: "${{ secrets.CLUSTER_NAME }}"
+
+      - name: Get all Resources from Azure Cluster
+        run: kubectl get all -n referit
+
+      - name: Perform Rolling Update of Cluster Resources
+        run: |
+          bash scripts/rollout-infra.sh
