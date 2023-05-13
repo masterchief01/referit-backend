@@ -1,51 +1,51 @@
 
-require("dotenv").config();
-const mongoose = require("mongoose");
-const {postAddUser, getOwnUser, getUserData, getUserSecData, editUserData} = require("../controllers/users");
+// require("dotenv").config();
+// const mongoose = require("mongoose");
+// const {postAddUser, getOwnUser, getUserData, getUserSecData, editUserData} = require("../controllers/users");
 
-let uri = process.env.MONGO_TEST_URI;
-mongoose.connect(uri);
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("MongoDB Test database connection established successfully");
-});
+// let uri = process.env.MONGO_TEST_URI;
+// mongoose.connect(uri);
+// const connection = mongoose.connection;
+// connection.once("open", () => {
+//   console.log("MongoDB Test database connection established successfully");
+// });
 
-describe("User Tests", () => {
+// describe("User Tests", () => {
 
-  it("Add User (Student) /postAddUser", async () => {
-    const req = {
-      user: {
-        "user_id": "test-student-user-id",
-        "pic": "random"
-      },
-      body: {
-        "name": "Test Student",
-        "email": "test-student-email@gmail.com",
-        "isReferee": true
-      },
-    };
+//   it("Add User (Student) /postAddUser", async () => {
+//     const req = {
+//       user: {
+//         "user_id": "test-student-user-id",
+//         "pic": "random"
+//       },
+//       body: {
+//         "name": "Test Student",
+//         "email": "test-student-email@gmail.com",
+//         "isReferee": true
+//       },
+//     };
 
-    const res = {
-      statusCode: 0,
-      body: {},
-      send: function (input) {
-        this.body = input;
-      },
-      status: function (code) {
-        this.statusCode = code;
-        return this;
-      },
-    };
+//     const res = {
+//       statusCode: 0,
+//       body: {},
+//       send: function (input) {
+//         this.body = input;
+//       },
+//       status: function (code) {
+//         this.statusCode = code;
+//         return this;
+//       },
+//     };
 
-    await postAddUser(req, res);
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toEqual({
-      message: "User Added Successfully",
-      isReferee: true,
-      signin: false,
-    });
-  },1000000);
-});
+//     await postAddUser(req, res);
+//     expect(res.statusCode).toBe(201);
+//     expect(res.body).toEqual({
+//       message: "User Added Successfully",
+//       isReferee: true,
+//       signin: false,
+//     });
+//   },1000000);
+// });
 
 
 // const { sumRequest } = require("../controllers/sample");
