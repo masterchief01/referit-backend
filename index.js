@@ -5,8 +5,8 @@ const cors = require("cors");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const responseTime = require("response-time");
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./swagger");
+// const swaggerUi = require("swagger-ui-express");
+// const swaggerSpec = require("./swagger");
 
 const { logError } = require("./logs/errorLogger");
 const { logResponseTime } = require("./logs/responseTimeLogger");
@@ -15,7 +15,6 @@ const port = process.env.PORT || 5001;
 
 const { getLogger } = require("./logs/logger");
 const logger = getLogger();
-logger.info(process.env)
 logger.info("Starting app in env: " + process.env.NODE_ENV);
 
 //-----MIDDLEWARE-----
@@ -58,7 +57,7 @@ const jobListingRoutes = require("./routes/jobListings");
 
 const router = express.Router();
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(
   "/api",
