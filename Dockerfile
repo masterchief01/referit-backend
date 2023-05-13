@@ -4,10 +4,10 @@ WORKDIR /server
 
 COPY ./package*.json yarn.lock ./
 
-RUN yarn --frozen-lockfile
+RUN npm install
 
 COPY . .
 
 EXPOSE 5001
 
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
