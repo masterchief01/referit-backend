@@ -2,12 +2,12 @@ FROM --platform=linux node:18.15.0-alpine
 
 WORKDIR /server
 
-COPY ./package*.json yarn.lock ./
+COPY ./package.json yarn.lock ./
 
-RUN npm install
+RUN yarn --frozen-lockfile
 
 COPY . .
 
 EXPOSE 5001
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
