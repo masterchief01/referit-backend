@@ -6,10 +6,10 @@ COPY ./package.json yarn.lock ./
 
 RUN rm -rf node_modules
 
-RUN yarn --frozen-lockfile
+RUN npm install
 
 COPY . .
 
 EXPOSE 5001
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
