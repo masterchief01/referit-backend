@@ -53,12 +53,12 @@ app.get("/error", (req, res) => {
   throw new Error("Error thrown");
 });
 
-// // Router Decleration
-// const userRoutes = require("./routes/users");
-// const referralRoutes = require("./routes/referrals");
-// const jobListingRoutes = require("./routes/jobListings");
+// Router Decleration
+const userRoutes = require("./routes/users");
+const referralRoutes = require("./routes/referrals");
+const jobListingRoutes = require("./routes/jobListings");
 
-// // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // app.use(
 //   "/api",
