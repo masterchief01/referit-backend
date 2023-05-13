@@ -60,12 +60,12 @@ const jobListingRoutes = require("./routes/jobListings");
 
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// app.use(
-//   "/api",
-//   express.Router().get("/", (req, res) => {
-//     res.send("welcome to refer it backend");
-//   })
-// );
+app.use(
+  "/api",
+  express.Router().get("/", (req, res) => {
+    res.send("welcome to refer it backend");
+  })
+);
 
 // app.use("/api/users", userRoutes);
 // app.use("/api/referral", referralRoutes);
