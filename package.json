@@ -21,6 +21,7 @@
     "mongoose": "^7.0.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.22",
+    "openapi-types": "^12.1.0",
     "patch-package": "^6.5.1",
     "response-time": "^2.3.2",
     "swagger-jsdoc": "^6.2.8",
