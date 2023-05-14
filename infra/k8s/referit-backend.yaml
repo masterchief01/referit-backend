@@ -5,12 +5,12 @@ metadata:
   namespace: referit
 spec:
   revisionHistoryLimit: 2
-  replicas: 1
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 100%
+      maxSurge: 2
+      maxUnavailable: 50%
   selector:
     matchLabels:
       app: referit-backend
