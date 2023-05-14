@@ -2,6 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const {postAddUser, getOwnUser, getUserData, getUserSecData, editUserData} = require("../controllers/users");
 const {postNewJob, postReferral, getJobListings, getReferralArchive, getJob, disableJob} = require("../controllers/jobListings");
+const { giveReferral, rejectReferral, giveFeedback } = require("../controllers/referrals");
 
 let uri = process.env.MONGO_TEST_URI;
 mongoose.connect(uri);
@@ -308,7 +309,300 @@ describe("Job Listings Tests", () => {
     expect(res.statusCode).toBe(201);
   }, 100000);
 
+  
+
+  it("Post Referral 1 (Student) /postReferral", async () => {
+    const req1 = {
+      user: {
+        "user_id": "test-student-user-id",
+      },
+      body: {
+        "jobId": "1",
+        "jobLink": undefined,
+        "company": "microsoft",
+        "isActive": false,
+        "self": true
+      },
+    };
+
+    const res1 = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await postNewJob(req1, res1);
+    expect(res1.statusCode).toBe(201);
+    let jobReference = res1.body.jobid;
+
+    const req2 = {
+      user: {
+        "user_id": "test-student-user-id",
+      },
+      body: {
+        "jobReference": jobReference,
+      },
+    };
+
+    const res2 = {
+      body: {},
+      send: function (input) {
+        this.body = input;
+      }
+    };
+
+    await postReferral(req2,res2);
+    expect(res2.body).toEqual({
+      message: "Referral requested successfully"
+    });
+  }, 100000);
+
+  it("Post Referral 2 (Student) /postReferral", async () => {
+    const req1 = {
+      user: {
+        "user_id": "test-student-user-id",
+      },
+      body: {
+        "jobId": "2",
+        "jobLink": undefined,
+        "company": "microsoft",
+        "isActive": false,
+        "self": true
+      },
+    };
+
+    const res1 = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await postNewJob(req1, res1);
+    expect(res1.statusCode).toBe(201);
+    let jobReference = res1.body.jobid;
+
+    const req2 = {
+      user: {
+        "user_id": "test-student-user-id",
+      },
+      body: {
+        "jobReference": jobReference,
+      },
+    };
+
+    const res2 = {
+      body: {},
+      send: function (input) {
+        this.body = input;
+      }
+    };
+
+    await postReferral(req2,res2);
+    expect(res2.body).toEqual({
+      message: "Referral requested successfully"
+    });
+  }, 100000);
+
+  it("Get Job Listings (Professional) /getJobListings", async () => {
+    const req = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+    };
+
+    const res = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await getJobListings(req, res);
+    expect(res.statusCode).toBe(200);
+  }, 100000);
+
+
+  it("Fetch Requested Referrals (Student) /getReferralArchive", async () => {
+    const req = {
+      user: {
+        "user_id": "test-student-user-id",
+      },
+    };
+
+    const res = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await getReferralArchive(req, res);
+    expect(res.statusCode).toBe(200);
+  }, 100000);
+
+  it("Disable Job (Professional) /disableJob", async () => {
+    const req1 = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+      body: {
+        "jobId": "123456",
+        "jobLink": undefined,
+        "company": "microsoft",
+        "isActive": true,
+
+
+      },
+    };
+
+    const res1 = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await postNewJob(req1, res1);
+    expect(res1.statusCode).toBe(201);
+    let jobid = res1.body.jobid;
+
+    const req2 = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+      params: {
+        jobid: jobid
+      }
+    }
+
+    const res2 = {
+      statusCode: 0,
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+      status: function (code) {
+        this.statusCode = code;
+        return this;
+      },
+    };
+
+    await disableJob(req2, res2);
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body).toEqual("Job Closed Successfully");
+
+
+  }, 100000);
+
 });
+
+describe("Referrals Tests", () => {
+
+  it("Give Feedback (Professional) /giveFeedback", async () => {
+    const req = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+      query: {
+        company: "microsoft",
+        ind: 0,
+      },
+      body: {
+        feedback: "Good."
+      }
+    };
+
+    const res = {
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+    };
+
+    await giveFeedback(req, res);
+    expect(res.body).toEqual({
+      message: "Feedback given",
+    });
+  }, 100000);
+  
+  it("Accept Referral (Professional) /giveReferral", async () => {
+    const req = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+      query: {
+        company: "microsoft",
+        ind: 0,
+      },
+    };
+
+    const res = {
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+    };
+
+    await giveReferral(req, res);
+    expect(res.body).toEqual({
+      message: "Referred",
+    });
+  }, 100000);
+
+
+  it("Reject Referral (Professional) /rejectReferral", async () => {
+    const req = {
+      user: {
+        "user_id": "test-professional-user-id",
+      },
+      query: {
+        company: "microsoft",
+        ind: 1,
+      },
+    };
+
+    const res = {
+      body: {},
+      send: function (input) {
+        this.body = input;
+      },
+    };
+
+    await rejectReferral(req, res);
+    expect(res.body).toEqual({
+      message: "Rejected",
+    });
+  }, 100000);
+});
+  
+
 
 
 

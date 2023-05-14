@@ -217,7 +217,7 @@ exports.giveFeedback = async (req, res) => {
         message: "You can't give feedback",
       });
     }
-    if (!company || !ind || !feedbackData) {
+    if (company==undefined || ind==undefined || feedbackData==undefined) {
       return res.status(400).send("Insufficient data");
     }
 
@@ -269,11 +269,12 @@ exports.giveReferral = async (req, res) => {
     const { ind } = req.query;
     // console.log(company);
     // console.log(ind);
-    // console.log(feedbackData.feedback);
+
     let UserIsReferee;
     await Users.find({ user_id: req.user.user_id }).then((docSnapResult) => {
       UserIsReferee = docSnapResult[0].isReferee;
     });
+
 
     // console.log(UserIsReferee);
     if (UserIsReferee) {
@@ -282,7 +283,7 @@ exports.giveReferral = async (req, res) => {
       });
     }
 
-    if (!company || !ind) {
+    if (company==undefined || ind==undefined) {
       return res.status(400).send("Insufficient data");
     }
 
@@ -297,6 +298,7 @@ exports.giveReferral = async (req, res) => {
 
     let allReferral = referralResult[0].data;
     const referral = allReferral[ind];
+
 
     if (!referral.isActive) {
       logger.info("Referral does not exist");
@@ -362,7 +364,7 @@ exports.rejectReferral = async (req, res) => {
         message: "You can't reject",
       });
     }
-    if (!company || !ind) {
+    if (company==undefined || !ind==undefined) {
       logger.info("Insufficient data");
       return res.status(400).send("Insufficient data");
     }
