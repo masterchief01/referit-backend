@@ -15,7 +15,6 @@ const port = process.env.PORT || 5001;
 
 const { getLogger } = require("./logs/logger");
 const logger = getLogger();
-// logger.info(JSON.stringify(process.env))
 logger.info("Starting app in env: " + process.env.NODE_ENV);
 
 //-----MIDDLEWARE-----
@@ -45,7 +44,6 @@ app.get("/health", (req, res) => {
   res.send("Health check");
 });
 
-app.post("/test", require("./controllers/sample").sumRequest);
 
 app.get("/error", (req, res) => {
   throw new Error("Error thrown");

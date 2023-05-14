@@ -218,11 +218,7 @@ exports.getJobListings = async (req, res) => {
     }
 
     logger.info("Job listings fetched successfully");
-    res
-      .send({
-        data: jobListings,
-      })
-      .status(200);
+    res.status(200).send({data: jobListings,});
   } catch (err) {
     logger.error(err);
     res.status(500).send({
@@ -283,11 +279,8 @@ exports.getReferralArchive = async (req, res) => {
     }
 
     logger.info("Referral archive fetched successfully");
-    res
-      .send({
-        data: referralArchive,
-      })
-      .status(200);
+    res.status(200).send({data: referralArchive,});
+      
   } catch (err) {
     logger.error(err);
     res.status(500).send({
@@ -330,7 +323,7 @@ exports.getJob = async (req, res) => {
     };
 
     logger.info("Job data fetched successfully");
-    res.send(jobData).status(200);
+    res.status(200).send(jobData);
   } catch (err) {
     logger.error(err);
     res.status(500).send({
@@ -350,8 +343,7 @@ exports.disableJob = async (req, res) => {
       });
     }
 
-    const postedBy_user_id = (await Users.find({ user_id: job.postedBy }))[0]
-      .user_id;
+    const postedBy_user_id = (await Users.find({ user_id: job.postedBy }))[0].user_id;
     if (postedBy_user_id != req.user.user_id) {
       logger.warn("Unauthorize");
       return res.status(400).send("Unauthorize");
